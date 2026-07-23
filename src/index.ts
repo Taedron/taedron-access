@@ -25,6 +25,14 @@ export type AccessIdentity = {
   email: string;
   /** Cloudflare's stable user id (the JWT `sub`). */
   userId: string;
+  /**
+   * Whether this email is listed in SUITE_ADMIN_EMAILS.
+   *
+   * Roles live in env rather than the token because One-time PIN carries no
+   * group claim — there would be nothing in the JWT to read. If a real IdP is
+   * added later, groups can flow into the token and replace this.
+   */
+  isAdmin: boolean;
 };
 
 export type AccessConfig = {
@@ -39,6 +47,8 @@ export type AccessConfig = {
    * application in the same team cannot be replayed here.
    */
   aud: string;
+  /** Lowercased emails granted admin rights. Empty means nobody is admin. */
+  adminEmails?: string[];
 };
 
 /**
@@ -82,7 +92,7 @@ export async function verifyAccessJwt(
       issuer: `https://${host}`,
       audience: config.aud,
     });
-    return identityFromPayload(payload);
+    return identityFromPayload(payload, config.adminEmails);
   } catch {
     // Signature/issuer/audience/expiry failures all land here. Deliberately
     // opaque: the caller only needs "not authenticated".
@@ -90,11 +100,24 @@ export async function verifyAccessJwt(
   }
 }
 
-function identityFromPayload(payload: JWTPayload): AccessIdentity | null {
+function identityFromPayload(payload: JWTPayload, adminEmails?: string[]): AccessIdentity | null {
   const email = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   const userId = typeof payload.sub === "string" ? payload.sub : "";
   if (!email) return null;
-  return { email, userId };
+  return { email, userId, isAdmin: (adminEmails ?? []).includes(email) };
+}
+
+/**
+ * Parse a SUITE_ADMIN_EMAILS value: comma, semicolon, or whitespace separated.
+ * Lowercased and de-duplicated; blanks dropped.
+ */
+export function parseAdminEmails(raw: string | undefined | null): string[] {
+  if (!raw) return [];
+  const parts = raw
+    .split(/[,;\s]+/)
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+  return [...new Set(parts)];
 }
 
 /** Minimal shape shared by NextRequest and the Fetch API Request. */
@@ -120,5 +143,52 @@ export function accessConfigFromEnv(env: Record<string, string | undefined> = pr
   const teamDomain = env.CF_ACCESS_TEAM_DOMAIN?.trim();
   const aud = env.CF_ACCESS_AUD?.trim();
   if (!teamDomain || !aud) return null;
-  return { teamDomain, aud };
+  return { teamDomain, aud, adminEmails: parseAdminEmails(env.SUITE_ADMIN_EMAILS) };
+}
+
+/**
+ * The outcome of guarding a request. Every Life Suite app maps these to the
+ * same responses, so the policy lives here once instead of in four middlewares.
+ *
+ *  - `ok`             → serve the request; `identity` is verified
+ *  - `unauthenticated`→ 401. Access IS configured and the token is missing or
+ *                       invalid. Never fall back to a password page: in
+ *                       production the only route to the origin is the tunnel
+ *                       behind Access, so a fallback protects nothing.
+ *  - `misconfigured`  → 503. Production with CF_ACCESS_* unset. FAIL CLOSED —
+ *                       serving an unguarded app is worse than serving none.
+ *  - `disabled`       → serve the request. Non-production with no Access
+ *                       configured, i.e. local dev.
+ */
+export type AccessCheck =
+  | { status: "ok"; identity: AccessIdentity }
+  | { status: "unauthenticated" }
+  | { status: "misconfigured" }
+  | { status: "disabled" };
+
+export type CheckAccessOptions = {
+  env?: Record<string, string | undefined>;
+  /**
+   * Treated as production when true. Defaults to NODE_ENV === "production".
+   * Only production fails closed; dev without Access stays usable.
+   */
+  isProduction?: boolean;
+};
+
+/**
+ * Guard a request against Cloudflare Access.
+ *
+ * This is the entry point apps should use — it folds config loading,
+ * verification, and the fail-closed production rule into one decision so no
+ * app has to re-derive the policy.
+ */
+export async function checkAccess(req: HeaderBag, options: CheckAccessOptions = {}): Promise<AccessCheck> {
+  const env = options.env ?? process.env;
+  const isProduction = options.isProduction ?? env.NODE_ENV === "production";
+
+  const config = accessConfigFromEnv(env);
+  if (!config) return isProduction ? { status: "misconfigured" } : { status: "disabled" };
+
+  const identity = await verifyAccessRequest(req, config);
+  return identity ? { status: "ok", identity } : { status: "unauthenticated" };
 }

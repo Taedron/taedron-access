@@ -1,6 +1,6 @@
 {
   "name": "@taedron/access",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "Cloudflare Access identity for Taedron Life Suite apps: verifies the signed Cf-Access-Jwt-Assertion against the team's JWKS. Ships raw TypeScript source — consumers must add '@taedron/access' to transpilePackages. Edge-runtime safe.",
   "type": "module",
@@ -11,13 +11,15 @@
     "src"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "jose": "^5.9.6"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   }
 }
