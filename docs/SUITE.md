@@ -13,11 +13,9 @@
 | LifePricer | `pricer.taedron.com` | `#0e8fe0` | **live** |
 | LifeLedgr | `ledgr.taedron.com` | `#0ea371` | **live** |
 | LifeEstate | `estate.taedron.com` | `#cf8a12` | **live** |
-| LifeHealth | `health.taedron.com` | `#e5417a` | planned |
-| LifePlanner | `planner.taedron.com` | `#7c5cf0` | planned |
 | LifeGarage | `garage.taedron.com` | `#e5602f` | planned |
-| LifeCare | `care.taedron.com` | `#d4456b` | planned |
-| LifeFocus | `focus.taedron.com` | `#5b8def` | planned |
+| LifeCare | `care.taedron.com` | `#e5417a` | planned |
+| LifeFocus | `focus.taedron.com` | `#7c5cf0` | planned |
 
 Derived from `SUITE_REGISTRY` in `taedron-ui/src/suite/registry.ts` — the single source
 of truth. Never hand-write an app list; use `suiteApps()` / `hubApps()` / `plannedApps()`.
@@ -42,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-07-30 — Accent map settled; `health` and `planner` removed from the registry**
+  <br>Affects: `taedron-ui` (landed on `main`, **no release** — nothing consumes these ids yet)
 - **2026-07-30 — Hub persistence settled; hub v2 unblocked**
   <br>Affects: pricer, ledgr, estate will each need an `/api/summary` — **not yet, and not by you**
 - **2026-07-30 — `taedron-ui` is now PRIVATE; builds need a GH_TOKEN**
