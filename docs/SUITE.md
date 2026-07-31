@@ -42,6 +42,10 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-07-30 — Hub persistence settled; hub v2 unblocked**
+  <br>Affects: pricer, ledgr, estate will each need an `/api/summary` — **not yet, and not by you**
+- **2026-07-30 — `taedron-ui` is now PRIVATE; builds need a GH_TOKEN**
+  <br>Affects: all five consumers — **set `GH_TOKEN` before your next build or deploy**
 - **2026-07-30 — Suite docs restructured; alignment tooling added**
   <br>Affects: all repos (informational; stubs land with the Step 6 branches)
 - **2026-07-23 — App registry becomes the single source of truth (`@taedron/ui` v0.10.0)**
