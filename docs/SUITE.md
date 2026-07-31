@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-07-31 — `/api/summary` shipped in LifePricer; the shape is proven**
+  <br>Affects: ledgr and estate will implement the same endpoint — **copy LifePricer, don't reinvent**
 - **2026-07-30 — Accent map settled; `health` and `planner` removed from the registry**
   <br>Affects: `taedron-ui` (landed on `main`, **no release** — nothing consumes these ids yet)
 - **2026-07-30 — Hub persistence settled; hub v2 unblocked**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: infrastructure only
 - **2026-07-22 — Hub deployed**
   <br>Affects: none directly
-- **2026-07-22 — `@taedron/ui` adopted by all three live apps**
-  <br>Affects: lifepricer, lifeledgr, lifeestate — done
 
 ## Reminders
 
