@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — The hub board is live; apps light up their card by shipping `/api/summary`**
+  <br>Affects: lifeledgr and lifeestate — **action available**: ship `/api/summary` to get a card
 - **2026-08-04 — @taedron/ui v0.17.0: top-bar controls pinned right, adopted everywhere**
   <br>Affects: all five consumers — already adopted in the same pass, nothing outstanding
 - **2026-08-04 — All five consumers adopted v0.16.0; the suite is on one shell**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: all four apps — **done in this pass**; new apps inherit it from the template
 - **2026-08-04 — Planner retired; LifeFocus scope settled**
   <br>Affects: `taedron-ui` (description staged, unreleased) — no action for anyone else
-- **2026-08-04 — LifeCare and LifeFocus are greenfield; nothing migrates from LifeLedgr**
-  <br>Affects: `lifeledgr` (nav categories removed) · `taedron-ui` (a description is now stale)
 
 ## Reminders
 
