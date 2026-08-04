@@ -40,14 +40,18 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — Build token renamed `GH_TOKEN` → `TAEDRON_UI_TOKEN`**
+  <br>Affects: all four deployable repos — **update the variable on your workstation and the VPS**
+- **2026-08-04 — Shared `taedron-suite` Docker network; hub can now reach the apps**
+  <br>Affects: all four deployable repos — **`docker network create taedron-suite` on each host, and
 - **2026-07-31 — `/api/summary` shipped in LifePricer; the shape is proven**
   <br>Affects: ledgr and estate will implement the same endpoint — **copy LifePricer, don't reinvent**
 - **2026-07-30 — Accent map settled; `health` and `planner` removed from the registry**
   <br>Affects: `taedron-ui` (landed on `main`, **no release** — nothing consumes these ids yet)
 - **2026-07-30 — Hub persistence settled; hub v2 unblocked**
   <br>Affects: pricer, ledgr, estate will each need an `/api/summary` — **not yet, and not by you**
-- **2026-07-30 — `taedron-ui` is now PRIVATE; builds need a GH_TOKEN**
-  <br>Affects: all five consumers — **set `GH_TOKEN` before your next build or deploy**
+- **2026-07-30 — `taedron-ui` is now PRIVATE; builds need a TAEDRON_UI_TOKEN**
+  <br>Affects: all five consumers — **set `TAEDRON_UI_TOKEN` before your next build or deploy**
 - **2026-07-30 — Suite docs restructured; alignment tooling added**
   <br>Affects: all repos (informational; stubs land with the Step 6 branches)
 - **2026-07-23 — App registry becomes the single source of truth (`@taedron/ui` v0.10.0)**
@@ -56,10 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: all consumers — adopted
 - **2026-07-23 — Decision 028: Cloudflare Access becomes the only login**
   <br>Affects: all repos — done in all three apps, the hub, and the template
-- **2026-07-23 — Suite-wide Access live**
-  <br>Affects: infrastructure only
-- **2026-07-22 — Hub deployed**
-  <br>Affects: none directly
 
 ## Reminders
 
