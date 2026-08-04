@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — All five consumers adopted v0.16.0; the suite is on one shell**
+  <br>Affects: everyone — informational, nothing outstanding
 - **2026-08-04 — @taedron/ui v0.16.0: one flat nav, the icon rail becomes a dropdown**
   <br>Affects: all five consumers — **no call-site changes needed**, but read the LifeLedgr note
 - **2026-08-04 — @taedron/ui v0.15.0: the green tint is gone, surfaces are neutral**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: `lifeledgr` (nav categories removed) · `taedron-ui` (a description is now stale)
 - **2026-08-04 — Suite state is now injected at session start, not looked up**
   <br>Affects: all seven repos — **open `/hooks` once (or restart) so the new hook is picked up**
-- **2026-08-04 — Build token renamed `GH_TOKEN` → `TAEDRON_UI_TOKEN`**
-  <br>Affects: all four deployable repos — **update the variable on your workstation and the VPS**
 
 ## Reminders
 
