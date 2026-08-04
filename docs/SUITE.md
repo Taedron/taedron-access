@@ -24,7 +24,7 @@ of truth. Never hand-write an app list; use `suiteApps()` / `hubApps()` / `plann
 
 | Package | Latest | This repo |
 |---|---|---|
-| `@taedron/ui` | v0.12.0 | — (not a consumer) |
+| `@taedron/ui` | v0.14.0 | — (not a consumer) |
 | `@taedron/access` | v0.2.0 | **this is the package** (v0.2.0) |
 
 Adoption is **deliberate and per-app** (suite decision S-004) — a new tag propagates to
@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — Left pane refinements: all categories open, nav sticks to the viewport**
+  <br>Affects: all consumers — adopted in the same pass, no action outstanding
 - **2026-08-04 — Deployed to production; hub v2 steps 1-2 are live**
   <br>Affects: all four deployed repos — informational, nothing to do
 - **2026-08-04 — `@taedron/ui` v0.11.0 released and adopted everywhere**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: all four deployable repos — **`docker network create taedron-suite` on each host, and
 - **2026-07-31 — `/api/summary` shipped in LifePricer; the shape is proven**
   <br>Affects: ledgr and estate will implement the same endpoint — **copy LifePricer, don't reinvent**
-- **2026-07-30 — Accent map settled; `health` and `planner` removed from the registry**
-  <br>Affects: `taedron-ui` (landed on `main`, **no release** — nothing consumes these ids yet)
 
 ## Reminders
 
