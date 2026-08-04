@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — Planner retired; LifeFocus scope settled**
+  <br>Affects: `taedron-ui` (description staged, unreleased) — no action for anyone else
 - **2026-08-04 — LifeCare and LifeFocus are greenfield; nothing migrates from LifeLedgr**
   <br>Affects: `lifeledgr` (nav categories removed) · `taedron-ui` (a description is now stale)
 - **2026-08-04 — Suite state is now injected at session start, not looked up**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: all five consumers — **set `TAEDRON_UI_TOKEN` before your next build or deploy**
 - **2026-07-30 — Suite docs restructured; alignment tooling added**
   <br>Affects: all repos (informational; stubs land with the Step 6 branches)
-- **2026-07-23 — App registry becomes the single source of truth (`@taedron/ui` v0.10.0)**
-  <br>Affects: all five consumers — adopted, all now on `v0.10.0`
 
 ## Reminders
 
