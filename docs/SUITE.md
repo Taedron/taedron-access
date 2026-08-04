@@ -24,7 +24,7 @@ of truth. Never hand-write an app list; use `suiteApps()` / `hubApps()` / `plann
 
 | Package | Latest | This repo |
 |---|---|---|
-| `@taedron/ui` | v0.16.0 | — (not a consumer) |
+| `@taedron/ui` | v0.17.0 | — (not a consumer) |
 | `@taedron/access` | v0.2.0 | **this is the package** (v0.2.0) |
 
 Adoption is **deliberate and per-app** (suite decision S-004) — a new tag propagates to
@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — @taedron/ui v0.17.0: top-bar controls pinned right, adopted everywhere**
+  <br>Affects: all five consumers — already adopted in the same pass, nothing outstanding
 - **2026-08-04 — All five consumers adopted v0.16.0; the suite is on one shell**
   <br>Affects: everyone — informational, nothing outstanding
 - **2026-08-04 — @taedron/ui v0.16.0: one flat nav, the icon rail becomes a dropdown**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: `taedron-ui` (description staged, unreleased) — no action for anyone else
 - **2026-08-04 — LifeCare and LifeFocus are greenfield; nothing migrates from LifeLedgr**
   <br>Affects: `lifeledgr` (nav categories removed) · `taedron-ui` (a description is now stale)
-- **2026-08-04 — Suite state is now injected at session start, not looked up**
-  <br>Affects: all seven repos — **open `/hooks` once (or restart) so the new hook is picked up**
 
 ## Reminders
 
