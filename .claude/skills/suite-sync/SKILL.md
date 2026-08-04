@@ -10,7 +10,16 @@ invisible to the others. This is what makes it visible.
 
 Source of truth: `taedron-hub/docs/suite/`. This skill is byte-identical in every repo.
 
-## Check (read-only — do this first)
+## It already ran
+
+Every repo has a **`SessionStart` hook** (`.claude/settings.json`) that runs
+`suite-sync --hook` and injects the result into context. **You were given the suite state before
+this session started** — check there before re-running it.
+
+If a `⚠ Life Suite drift detected` message appeared, read the injected report and act on it before
+starting work, especially if this repo is behind on a shared package.
+
+## Check manually (read-only)
 
 ```bash
 node ../taedron-hub/scripts/suite-sync.mjs
@@ -19,7 +28,8 @@ node ../taedron-hub/scripts/suite-sync.mjs
 From `taedron-hub` itself: `node scripts/suite-sync.mjs`.
 
 Exit codes: **0** aligned · **1** drift · **2** refused to write (unreadable state, or a public repo
-would have received infrastructure detail).
+would have received infrastructure detail). `--hook` always exits 0 — drift is information, not a
+broken session.
 
 ## Reading the output
 

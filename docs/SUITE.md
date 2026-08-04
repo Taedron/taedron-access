@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — Suite state is now injected at session start, not looked up**
+  <br>Affects: all seven repos — **open `/hooks` once (or restart) so the new hook is picked up**
 - **2026-08-04 — Build token renamed `GH_TOKEN` → `TAEDRON_UI_TOKEN`**
   <br>Affects: all four deployable repos — **update the variable on your workstation and the VPS**
 - **2026-08-04 — Shared `taedron-suite` Docker network; hub can now reach the apps**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: all five consumers — adopted, all now on `v0.10.0`
 - **2026-07-23 — Shell fixes (`@taedron/ui` v0.6.0 → v0.9.0)**
   <br>Affects: all consumers — adopted
-- **2026-07-23 — Decision 028: Cloudflare Access becomes the only login**
-  <br>Affects: all repos — done in all three apps, the hub, and the template
 
 ## Reminders
 
