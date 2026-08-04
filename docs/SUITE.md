@@ -24,7 +24,7 @@ of truth. Never hand-write an app list; use `suiteApps()` / `hubApps()` / `plann
 
 | Package | Latest | This repo |
 |---|---|---|
-| `@taedron/ui` | v0.11.0 | — (not a consumer) |
+| `@taedron/ui` | v0.12.0 | — (not a consumer) |
 | `@taedron/access` | v0.2.0 | **this is the package** (v0.2.0) |
 
 Adoption is **deliberate and per-app** (suite decision S-004) — a new tag propagates to
@@ -44,6 +44,8 @@ Latest entries from the suite changelog:
   <br>Affects: all four deployed repos — informational, nothing to do
 - **2026-08-04 — `@taedron/ui` v0.11.0 released and adopted everywhere**
   <br>Affects: all five consumers — **adopted in the same pass; no action outstanding**
+- **2026-08-04 — Suite-standard nav: left pane on desktop, bottom tabs on mobile**
+  <br>Affects: all four apps — **done in this pass**; new apps inherit it from the template
 - **2026-08-04 — Planner retired; LifeFocus scope settled**
   <br>Affects: `taedron-ui` (description staged, unreleased) — no action for anyone else
 - **2026-08-04 — LifeCare and LifeFocus are greenfield; nothing migrates from LifeLedgr**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: ledgr and estate will implement the same endpoint — **copy LifePricer, don't reinvent**
 - **2026-07-30 — Accent map settled; `health` and `planner` removed from the registry**
   <br>Affects: `taedron-ui` (landed on `main`, **no release** — nothing consumes these ids yet)
-- **2026-07-30 — Hub persistence settled; hub v2 unblocked**
-  <br>Affects: pricer, ledgr, estate will each need an `/api/summary` — **not yet, and not by you**
 
 ## Reminders
 
