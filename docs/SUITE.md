@@ -24,7 +24,7 @@ of truth. Never hand-write an app list; use `suiteApps()` / `hubApps()` / `plann
 
 | Package | Latest | This repo |
 |---|---|---|
-| `@taedron/ui` | v0.10.0 | — (not a consumer) |
+| `@taedron/ui` | v0.11.0 | — (not a consumer) |
 | `@taedron/access` | v0.2.0 | **this is the package** (v0.2.0) |
 
 Adoption is **deliberate and per-app** (suite decision S-004) — a new tag propagates to
@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-04 — `@taedron/ui` v0.11.0 released and adopted everywhere**
+  <br>Affects: all five consumers — **adopted in the same pass; no action outstanding**
 - **2026-08-04 — Planner retired; LifeFocus scope settled**
   <br>Affects: `taedron-ui` (description staged, unreleased) — no action for anyone else
 - **2026-08-04 — LifeCare and LifeFocus are greenfield; nothing migrates from LifeLedgr**
@@ -58,8 +60,6 @@ Latest entries from the suite changelog:
   <br>Affects: pricer, ledgr, estate will each need an `/api/summary` — **not yet, and not by you**
 - **2026-07-30 — `taedron-ui` is now PRIVATE; builds need a TAEDRON_UI_TOKEN**
   <br>Affects: all five consumers — **set `TAEDRON_UI_TOKEN` before your next build or deploy**
-- **2026-07-30 — Suite docs restructured; alignment tooling added**
-  <br>Affects: all repos (informational; stubs land with the Step 6 branches)
 
 ## Reminders
 
