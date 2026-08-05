@@ -40,6 +40,7 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-05 — Container hardening across the suite**
 - **2026-08-04 — Suite-wide security hardening (audit remediation, phase 1)**
 - **2026-08-04 — LifeLedgr and LifeEstate ship `/api/summary`; all three cards are live**
   <br>Affects: everyone — informational. Every live app now feeds the hub board.
@@ -57,8 +58,6 @@ Latest entries from the suite changelog:
   <br>Affects: all consumers — adopted in the same pass, no action outstanding
 - **2026-08-04 — Deployed to production; hub v2 steps 1-2 are live**
   <br>Affects: all four deployed repos — informational, nothing to do
-- **2026-08-04 — `@taedron/ui` v0.11.0 released and adopted everywhere**
-  <br>Affects: all five consumers — **adopted in the same pass; no action outstanding**
 
 ## Reminders
 
