@@ -13,8 +13,8 @@
 | LifePricer | `pricer.taedron.com` | `#0e8fe0` | **live** |
 | LifeLedgr | `ledgr.taedron.com` | `#0ea371` | **live** |
 | LifeEstate | `estate.taedron.com` | `#cf8a12` | **live** |
+| LifeCare | `care.taedron.com` | `#e5417a` | **live** |
 | LifeGarage | `garage.taedron.com` | `#e5602f` | planned |
-| LifeCare | `care.taedron.com` | `#e5417a` | planned |
 | LifeFocus | `focus.taedron.com` | `#7c5cf0` | planned |
 
 Derived from `SUITE_REGISTRY` in `taedron-ui/src/suite/registry.ts` — the single source
@@ -24,7 +24,7 @@ of truth. Never hand-write an app list; use `suiteApps()` / `hubApps()` / `plann
 
 | Package | Latest | This repo |
 |---|---|---|
-| `@taedron/ui` | v0.17.0 | — (not a consumer) |
+| `@taedron/ui` | v0.17.1 | — (not a consumer) |
 | `@taedron/access` | v0.2.0 | **this is the package** (v0.2.0) |
 
 Adoption is **deliberate and per-app** (suite decision S-004) — a new tag propagates to
@@ -40,6 +40,14 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-05 — @taedron/ui v0.17.1: LifeCare is live in the registry**
+  <br>Affects: every consumer — adopt to show the LifeCare tile
+- **2026-08-05 — LifeCare deployed: care.taedron.com resolves, behind wildcard Access**
+  <br>Affects: `taedron-hub` (SUITE.md topology row) · registry flip still pending in `taedron-ui`
+- **2026-08-05 — New-app workflow captured as a template skill; CONTRACTS drift reconciled**
+  <br>Affects: `taedron-template` (new skill) · future apps — informational for live apps
+- **2026-08-05 — LifeCare is scaffolded and registered with suite-sync**
+  <br>Affects: `taedron-hub` (suite.config.json) · informational for everyone else
 - **2026-08-05 — Container hardening across the suite**
 - **2026-08-04 — Suite-wide security hardening (audit remediation, phase 1)**
 - **2026-08-04 — LifeLedgr and LifeEstate ship `/api/summary`; all three cards are live**
@@ -50,14 +58,6 @@ Latest entries from the suite changelog:
   <br>Affects: all five consumers — already adopted in the same pass, nothing outstanding
 - **2026-08-04 — All five consumers adopted v0.16.0; the suite is on one shell**
   <br>Affects: everyone — informational, nothing outstanding
-- **2026-08-04 — @taedron/ui v0.16.0: one flat nav, the icon rail becomes a dropdown**
-  <br>Affects: all five consumers — **no call-site changes needed**, but read the LifeLedgr note
-- **2026-08-04 — @taedron/ui v0.15.0: the green tint is gone, surfaces are neutral**
-  <br>Affects: all five consumers — **action required on adoption**, see the three gotchas below
-- **2026-08-04 — Left pane refinements: all categories open, nav sticks to the viewport**
-  <br>Affects: all consumers — adopted in the same pass, no action outstanding
-- **2026-08-04 — Deployed to production; hub v2 steps 1-2 are live**
-  <br>Affects: all four deployed repos — informational, nothing to do
 
 ## Reminders
 
