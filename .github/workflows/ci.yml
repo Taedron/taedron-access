@@ -41,6 +41,13 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      # Errors fail the build; warnings do not. The raw-palette rule has
+      # hundreds of pre-existing violations, and a gate that always fails is one
+      # everyone learns to ignore. `npm run lint:strict` is the ratchet for
+      # clearing that debt.
+      - name: Lint
+        run: npm run lint
+
       - name: Tests
         run: npm run test
 

@@ -12,6 +12,27 @@ the API change.
 
 ---
 
+## 2026-08-05 — ESLint installed and wired into CI
+
+`npm run lint` / `npm run lint:strict`, running in CI after Typecheck and part of the
+`finish-task` checklist. **Zero errors**, zero warnings.
+
+Toolchain: `eslint@^10`, `@eslint/js@^10`, `typescript-eslint@^8`,
+`eslint-plugin-react-hooks@^7`. Two version traps worth knowing: `typescript-eslint` has no v9
+or v10 — v8 peers eslint `^10` and is correct; and `eslint-plugin-react-hooks@^6` will **not**
+install against eslint 10, `^7` is the first major that peers it. Adds no vulnerabilities — the
+dev tree audits identically to the production tree.
+
+**Also found on the first run:** a literal BOM character inside a regex in `suite-sync.mjs`
+(invisible in every editor, now `﻿`); two `eslint-disable` comments naming rules no
+installed plugin defined, so they had been silencing nothing; 12 unused icon imports in one file;
+an unused helper plus the prop that fed it; and two provably-dead initialisers.
+
+CI gates on **errors only**. The raw-palette rule carries hundreds of pre-existing violations
+across the suite, and a gate that always fails is one everyone learns to ignore. See
+`docs/LINTING.md` for every rule and why it is set where it is.
+
+
 ## 2026-08-05 — ESLint config (inert)
 
 `eslint.config.mjs` committed with `lint` / `lint:strict` scripts. **Inert until the dev

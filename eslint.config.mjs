@@ -101,10 +101,15 @@ const taedron = {
         },
       },
       create(context) {
+        // Report EVERY match in the string, not just the first: a className
+        // often carries several, and reporting one at a time makes the count
+        // understate the debt and turns fixing a line into several passes.
+        const all = new RegExp(PALETTE.source, "g");
         const check = (node, value) => {
           if (typeof value !== "string") return;
-          const m = PALETTE.exec(value);
-          if (m) context.report({ node, messageId: "raw", data: { match: m[0] } });
+          for (const m of value.matchAll(all)) {
+            context.report({ node, messageId: "raw", data: { match: m[0] } });
+          }
         };
         return {
           Literal(node) {
@@ -122,18 +127,55 @@ const taedron = {
 export default tseslint.config(
   {
     ignores: [
+      // .claude/worktrees/ holds agent worktrees — full, and usually STALE,
+      // copies of this repo. Linting them reports the same findings twice and
+      // resurrects issues already fixed on the real tree.
+      "**/.claude/**",
       "**/.next/**",
       "**/node_modules/**",
       "**/dist/**",
       "**/coverage/**",
       "src/generated/**",
       "prisma/generated/**",
-      "next-env.d.ts",
+      "**/next-env.d.ts",
     ],
   },
 
   js.configs.recommended,
   tseslint.configs.recommended,
+
+  // Plain JS/MJS scripts run in Node, which `no-undef` knows nothing about —
+  // and typescript-eslint only disables that rule for TS files. Declaring the
+  // globals keeps the rule working (a real typo still fails) instead of turning
+  // it off wholesale. The `globals` package would supply these, but it is not
+  // worth a dependency for one list.
+  {
+    files: ["**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        process: "readonly",
+        Buffer: "readonly",
+        URL: "readonly",
+        URLSearchParams: "readonly",
+        TextEncoder: "readonly",
+        TextDecoder: "readonly",
+        fetch: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        structuredClone: "readonly",
+        globalThis: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        module: "writable",
+        require: "readonly",
+        exports: "writable",
+      },
+    },
+  },
+
 
   {
     plugins: { taedron },

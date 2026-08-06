@@ -40,6 +40,7 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-05 — ESLint installed and gating CI in all eight repos**
 - **2026-08-05 — Boot-time env validation in all six Next apps; ESLint config committed (inert)**
 - **2026-08-05 — CI across all eight repos; OCR fixed; a gitignore rule was eating migrations**
 - **2026-08-05 — @taedron/ui v0.17.1: LifeCare is live in the registry**
@@ -54,8 +55,6 @@ Latest entries from the suite changelog:
 - **2026-08-04 — Suite-wide security hardening (audit remediation, phase 1)**
 - **2026-08-04 — LifeLedgr and LifeEstate ship `/api/summary`; all three cards are live**
   <br>Affects: everyone — informational. Every live app now feeds the hub board.
-- **2026-08-04 — The hub board is live; apps light up their card by shipping `/api/summary`**
-  <br>Affects: lifeledgr and lifeestate — **action available**: ship `/api/summary` to get a card
 
 ## Reminders
 
