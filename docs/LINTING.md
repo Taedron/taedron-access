@@ -1,88 +1,83 @@
 # Linting
 
-## Status: config committed, **not yet installed**
-
-`eslint.config.mjs` is in this repo and reviewable, but the dev dependencies are not
-installed, so `npm run lint` will fail with "eslint: not found" until you run:
-
 ```bash
-npm install --save-dev eslint@^10 @eslint/js@^10 typescript-eslint@^8
+npm run lint          # errors fail, warnings are reported
+npm run lint:strict   # --max-warnings 0, for clearing debt
 ```
 
-That is the only step — the scripts are already in `package.json`.
+**Status:** installed and passing. Zero errors, zero warnings. Wired into
+`.github/workflows/ci.yml` after Typecheck, and into the `finish-task` checklist.
 
-`typescript-eslint@8` is correct alongside `eslint@10`: it declares
-`"eslint": "^8.57.0 || ^9.0.0 || ^10.0.0"` as a peer and there is no v9 or v10 of it. The
-mismatched majors look wrong and are not.
+CI fails on **errors only**. The raw-palette rule has hundreds of pre-existing violations across
+the suite, and a gate that always fails is one everyone learns to ignore. `lint:strict` is the
+ratchet.
 
-## ⚠️ The config has not been executed
+## Toolchain
 
-ESLint could not be installed while this was written, so the rule logic was verified by other
-means:
+| Package | Version | Note |
+|---|---|---|
+| `eslint` | ^10 | flat config only |
+| `@eslint/js` | ^10 | `js.configs.recommended` |
+| `typescript-eslint` | ^8 | correct alongside eslint 10 — it peers `^8.57 \|\| ^9 \|\| ^10`, and there is no v9/v10 of it |
+| `eslint-plugin-react-hooks` | ^7 | **^7 is the first major that peers eslint 10.** ^6 fails to install |
 
-- the config file parses as valid ESM (`node --check`);
-- the palette regex was tested against 44 class strings — 16 that must flag, 28 that must
-  not, including the `bg-white-ish` false-positive case and the `bg-black/50` opacity case;
-- the `process.env` rule's node predicate was checked against four synthetic AST shapes
-  (`process.env`, `process.cwd`, `myEnv.env`, `process["env"]`).
-
-Expect to fix a config-shape detail on the first real run. The rules themselves are sound, but
-"it parses" is not "it runs".
-
-## Why it shipped inert installing a dependency needs explicit approval in this setup, and
-adding the packages to `package.json` without a matching `package-lock.json` would break
-CI — `npm ci` fails hard when the two disagree. Committing the config separately keeps the
-repo working and makes activation a single reviewed command.
-
-## After installing
-
-Add the step to `.github/workflows/ci.yml`, immediately after Typecheck:
-
-```yaml
-      - name: Lint
-        run: npm run lint
-```
-
-Then add a line to `.claude/skills/finish-task/SKILL.md` so it becomes part of the
-Definition of Done.
+Adds **no** vulnerabilities: the dev tree audits identically to the production tree.
 
 ## What is enforced, and why
 
-Everything below was chosen because the suite had *already* violated it somewhere, or
-because the docs asserted it and nothing checked. A generic recommended set would not have
-caught any of these.
+Every rule below was chosen because this codebase had *already* violated it, or because the docs
+asserted it and nothing checked. A generic recommended set would not have caught any of them.
 
-- `taedron/no-process-env` — **off**. Reading Access configuration is this package's
-  job, and `accessConfigFromEnv(env = process.env)` already takes the source as an
-  injectable parameter, which is the right shape and what makes it testable.
+- `taedron/no-process-env` — **off here, on purpose.** Reading Access configuration is this
+  package's job, and `accessConfigFromEnv(env = process.env)` already takes the source as an
+  injectable parameter — the right shape, and what makes it testable.
 
-- `no-restricted-syntax` → **no second `PrismaClient`**. The pool is per-instance, and
-  Next's dev hot-reload makes a fresh one per reload until MySQL runs out of connections.
-  `src/lib/db.ts` holds the singleton.
+- `taedron/no-raw-palette` — **off here.** No components in this package.
 
-- `no-restricted-syntax` → **no cast on a `readJson()` result**. It returns `unknown`
-  deliberately; casting asserts a shape nothing checked, which is exactly how an unvalidated
-  request body reaches a service. Parse it with zod.
+- `no-console` — **error**, `warn`/`error` allowed. `src/lib/logger.ts` redacts secret-shaped
+  fields and scrubs connection strings out of error messages; `console.log` bypasses both, and
+  `DATABASE_URL` carries the database password.
 
-- `taedron/no-raw-palette` — **off**. No components in this package.
+- `react-hooks/rules-of-hooks` — **error**; `exhaustive-deps` — **warn**. Conditional or
+  out-of-order hook calls are real runtime bugs that `tsc` cannot see.
 
-- `no-console` — **error**, `warn`/`error` allowed. `src/lib/logger.ts` redacts
-  secret-shaped fields and scrubs connection strings out of error messages; `console.log`
-  bypasses both, and `DATABASE_URL` carries the database password.
+- `@typescript-eslint/no-explicit-any` — **warn**. A shim for a third-party shape is sometimes
+  the honest answer; `any` on our own types is not.
 
-- `@typescript-eslint/no-explicit-any` — **warn**. A shim for a third-party shape is
-  sometimes the honest answer; `any` on our own types is not.
+## What the first run actually caught
+
+Worth recording, because it is the argument for having the linter at all:
+
+- **An auth-gate hole.** `src/middleware.ts` had `favicon\.ico` inside a *string*, where
+  `\.` is just `.` — so the negative lookahead read `favicon.ico` with `.` matching **any**
+  character. `/faviconXico` and `/robotsXtxt` were excluded from the middleware, i.e. from the
+  Access gate. Present in all six Next repos. `no-useless-escape` found it; the fix is `\\.`.
+- **A literal BOM character** sitting in the middle of a regex in `suite-sync.mjs`, invisible in
+  every editor. Now written `\uFEFF`.
+- **Dead code**: 12 unused icon imports in one file, an unused helper plus the prop that fed it,
+  two unused imports in migration scripts.
+- **Two dead `eslint-disable` comments** naming rules no installed plugin defined
+  (`@next/next/no-img-element`, `react-hooks/exhaustive-deps`) — they had been silencing
+  nothing. ESLint 10 hard-errors on these, which is how they surfaced.
+- **Two `no-useless-assignment`** findings where an initialiser was provably never read.
 
 ## Deliberately not type-aware
 
-`recommendedTypeChecked` needs a TS program per run, and its `no-unsafe-*` rules fire on
-every Prisma result and every `JSON.parse`. That is thousands of findings and a slow gate —
-which is how a lint step becomes something everyone skips. `tsc --noEmit` already covers
-type correctness; this covers what types cannot express.
+`recommendedTypeChecked` needs a TS program per run, and its `no-unsafe-*` rules fire on every
+Prisma result and every `JSON.parse`. That is thousands of findings and a slow gate — which is
+how a lint step becomes something everyone skips. `tsc --noEmit` already covers type
+correctness; this covers what types cannot express.
+
+## Two things the config must keep ignoring
+
+- `**/.claude/**` — agent worktrees are full, usually **stale**, copies of the repo. Linting
+  them reports every finding twice and resurrects issues already fixed on the real tree.
+- `**/next-env.d.ts` — needs the `**/` prefix. A bare `next-env.d.ts` in flat-config
+  `ignores` matches only the repo root, so nested copies still got linted.
 
 ## Duplication, acknowledged
 
-This config is copied per repo rather than shared from a package. That is deliberate: the
-Life Suite repos are separate on purpose so a change in one cannot break a session working in
-another, and a shared `@taedron/eslint-config` would reintroduce exactly that coupling for
-tooling. If the configs drift far enough to hurt, revisit it as its own decision.
+This config is copied per repo rather than shared from a package. That is deliberate: the Life
+Suite repos are separate on purpose so a change in one cannot break a session working in another,
+and a shared `@taedron/eslint-config` would reintroduce exactly that coupling for tooling. If
+the configs drift far enough to hurt, revisit it as its own decision.
