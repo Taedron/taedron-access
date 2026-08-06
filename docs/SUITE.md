@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-06 — `tone` is now load-bearing: it drives the hub's attention rail**
+  <br>Affects: every app that ships `/api/summary` — pricer, ledgr, estate, care, garage, focus
 - **2026-08-06 — LifeGarage and LifeFocus scaffolded (planned, not deployed)**
   <br>Affects: taedron-hub, lifegarage, lifefocus
 - **2026-08-05 — ESLint installed and gating CI in all eight repos**
@@ -54,7 +56,6 @@ Latest entries from the suite changelog:
 - **2026-08-05 — LifeCare is scaffolded and registered with suite-sync**
   <br>Affects: `taedron-hub` (suite.config.json) · informational for everyone else
 - **2026-08-05 — Container hardening across the suite**
-- **2026-08-04 — Suite-wide security hardening (audit remediation, phase 1)**
 
 ## Reminders
 
