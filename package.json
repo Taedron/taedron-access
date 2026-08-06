@@ -12,6 +12,8 @@
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:strict": "eslint . --max-warnings 0",
     "test": "vitest run"
   },
   "dependencies": {

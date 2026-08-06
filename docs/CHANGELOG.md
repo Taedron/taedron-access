@@ -12,6 +12,16 @@ the API change.
 
 ---
 
+## 2026-08-05 — ESLint config (inert)
+
+`eslint.config.mjs` committed with `lint` / `lint:strict` scripts. **Inert until the dev
+dependencies are installed** — see `docs/LINTING.md`. No source changes.
+
+`taedron/no-process-env` is **off** in this repo on purpose: reading Access configuration is
+this package's job, and `accessConfigFromEnv(env = process.env)` already takes the source as an
+injectable parameter — which is the right shape and is what makes it testable.
+
+
 ## v0.2.0 — 2026-07-23 — `checkAccess` and fail-closed behaviour
 - New `checkAccess(req)` returns exactly one of:
   - `ok` — verified identity, forwarded by the app as `x-user-email` / `x-user-admin`
