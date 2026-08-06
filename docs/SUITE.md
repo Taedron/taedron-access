@@ -40,6 +40,8 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-06 — LifeGarage and LifeFocus scaffolded (planned, not deployed)**
+  <br>Affects: taedron-hub, lifegarage, lifefocus
 - **2026-08-05 — ESLint installed and gating CI in all eight repos**
 - **2026-08-05 — Boot-time env validation in all six Next apps; ESLint config committed (inert)**
 - **2026-08-05 — CI across all eight repos; OCR fixed; a gitignore rule was eating migrations**
@@ -53,8 +55,6 @@ Latest entries from the suite changelog:
   <br>Affects: `taedron-hub` (suite.config.json) · informational for everyone else
 - **2026-08-05 — Container hardening across the suite**
 - **2026-08-04 — Suite-wide security hardening (audit remediation, phase 1)**
-- **2026-08-04 — LifeLedgr and LifeEstate ship `/api/summary`; all three cards are live**
-  <br>Affects: everyone — informational. Every live app now feeds the hub board.
 
 ## Reminders
 
