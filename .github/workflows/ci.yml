@@ -1,0 +1,58 @@
+# Continuous integration for taedron-access.
+#
+# Added 2026-08-05 after a full security audit found that no repo in the suite had
+# any CI at all. The audit's own lesson was that the real breakage of the day —
+# a missing OCR wasm binary, a gitignore rule swallowing a Prisma migration — was
+# caught by RUNNING things, not by reading them. This is that, on every push.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A newer push supersedes an in-flight run on the same ref.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node 22 to match the Dockerfile (node:22-alpine). No engines field pins
+      # this, so the two can drift — keep them together by hand.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm run test
+
+      # Two calls on purpose. The first always prints the full picture; the second
+      # is the gate, and fails ONLY on critical.
+      #
+      # Not --audit-level=high: there are 2-3 unfixable high advisories per repo
+      # (next's Server Actions DoS — unreachable, no "use server" anywhere;
+      # postcss — build-time only; uuid via node-cron@3 — needs the breaking
+      # node-cron@4 upgrade). Gating on high would fail every PR from day one, and
+      # a gate that always fails is a gate everyone learns to ignore.
+      - name: Dependency audit
+        if: always()
+        run: |
+          npm audit --omit=dev || true
+          npm audit --omit=dev --audit-level=critical
