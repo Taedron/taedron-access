@@ -13,8 +13,8 @@
 | LifePricer | `pricer.taedron.com` | `#0e8fe0` | **live** |
 | LifeLedgr | `ledgr.taedron.com` | `#0ea371` | **live** |
 | LifeEstate | `estate.taedron.com` | `#cf8a12` | **live** |
+| LifeGarage | `garage.taedron.com` | `#e5602f` | **live** |
 | LifeCare | `care.taedron.com` | `#e5417a` | **live** |
-| LifeGarage | `garage.taedron.com` | `#e5602f` | planned |
 | LifeFocus | `focus.taedron.com` | `#7c5cf0` | planned |
 
 Derived from `SUITE_REGISTRY` in `taedron-ui/src/suite/registry.ts` — the single source
@@ -24,7 +24,7 @@ of truth. Never hand-write an app list; use `suiteApps()` / `hubApps()` / `plann
 
 | Package | Latest | This repo |
 |---|---|---|
-| `@taedron/ui` | v0.17.1 | — (not a consumer) |
+| `@taedron/ui` | v0.18.0 | — (not a consumer) |
 | `@taedron/access` | v0.2.0 | **this is the package** (v0.2.0) |
 
 Adoption is **deliberate and per-app** (suite decision S-004) — a new tag propagates to
@@ -40,6 +40,14 @@ npm caches `github:` tags, so a plain `npm install` silently reuses the old vers
 
 Latest entries from the suite changelog:
 
+- **2026-08-07 — @taedron/ui v0.18.0 — garage flips to `status: "live"`**
+  <br>Affects: `taedron-hub` must adopt for the bento card to appear · every other app optionally, for its switcher rail
+- **2026-08-07 — LifeGarage is LIVE at garage.taedron.com, with the suite's first per-app Access AUD**
+  <br>Affects: `taedron-hub` (its bento card is still hidden — see below) · informational for everyone else
+- **2026-08-07 — `TAEDRON_UI_TOKEN` is required for EVERY build, and was documented in no `.env.example`**
+  <br>Affects: everyone who builds or deploys — **no action outstanding**, all eight repos are fixed
+- **2026-08-07 — `env-preflight.sh` now knows lifegarage, and fails on absence**
+  <br>Affects: everyone who deploys — a second silent-pass path in the same script
 - **2026-08-07 — `env-preflight.sh` never actually failed; every "PRE-FLIGHT OK" was unconditional**
   <br>Affects: everyone who deploys — the gate you have been trusting was not gating
 - **2026-08-06 — `tone` is now load-bearing: it drives the hub's attention rail**
@@ -49,14 +57,6 @@ Latest entries from the suite changelog:
 - **2026-08-05 — ESLint installed and gating CI in all eight repos**
 - **2026-08-05 — Boot-time env validation in all six Next apps; ESLint config committed (inert)**
 - **2026-08-05 — CI across all eight repos; OCR fixed; a gitignore rule was eating migrations**
-- **2026-08-05 — @taedron/ui v0.17.1: LifeCare is live in the registry**
-  <br>Affects: every consumer — adopt to show the LifeCare tile
-- **2026-08-05 — LifeCare deployed: care.taedron.com resolves, behind wildcard Access**
-  <br>Affects: `taedron-hub` (SUITE.md topology row) · registry flip still pending in `taedron-ui`
-- **2026-08-05 — New-app workflow captured as a template skill; CONTRACTS drift reconciled**
-  <br>Affects: `taedron-template` (new skill) · future apps — informational for live apps
-- **2026-08-05 — LifeCare is scaffolded and registered with suite-sync**
-  <br>Affects: `taedron-hub` (suite.config.json) · informational for everyone else
 
 ## Reminders
 
